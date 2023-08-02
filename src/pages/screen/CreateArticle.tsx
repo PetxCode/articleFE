@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Link } from "react-router-dom"
 import pix from "../../assets/bukky.jpg"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { registerAuthor } from '../../api/AuthAPI'
 import { useNavigate } from "react-router-dom"
 import { createArticle } from '../../api/ArticleAPI'
 import { useSelector } from "react-redux"
-
 
 const CreateArticle = () => {
     const navigate = useNavigate()
@@ -23,7 +20,7 @@ const CreateArticle = () => {
         content: yup.string().required(),
     })
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
 
@@ -107,41 +104,6 @@ export default CreateArticle
 const Title = styled.div`
 margin-bottom: 20px;
 font-weight: 600;
-`
-
-const LineText = styled.div`
-text-transform: uppercase;
-font-size: 10px;
-margin: 0 6px;
-width: 100%;
-text-align: center;
-line-height:1.2;
-`
-
-const Line = styled.div`
-width: 100%;
-border-bottom: 1px solid;
-border-color: var(--appBorder);
-`
-
-const Holder = styled.div`
-display: flex;
-width: 90%;
-align-items: center;
-margin-bottom: 20px;
-`
-
-const Button2 = styled(Link)`
-width: 90%;
-background-color: var(--appAuth);
-color: var(--appBG);
-height: 43px;
-display: flex;
-align-items:center;
-justify-content: center;
-margin: 10px 0;
-border-radius: var(--appRadiusSmall);
-text-decoration: none;
 `
 
 const Button = styled.button`

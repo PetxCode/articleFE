@@ -20,7 +20,7 @@ const Register = () => {
         confirm: yup.string().oneOf([yup.ref("password")])
     })
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
 

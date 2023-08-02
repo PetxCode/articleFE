@@ -16,3 +16,15 @@ export const createArticle = async (data: any, userID: string) => {
         console.log(error)
     }
 } 
+
+export const readArticle = async (userID: string) => {
+    try {
+        return await axios.get(`${url}/${userID}/read-friend-article`).then((res: any) => {
+
+            return res.data.data
+        })
+    } catch (error) {
+        console.log(error);
+
+    }
+}

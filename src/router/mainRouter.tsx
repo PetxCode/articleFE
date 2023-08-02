@@ -7,6 +7,8 @@ import PrivateRoute from './privateRoute'
 import Layout from '../components/common/Layout'
 import CreateArticle from '../pages/screen/CreateArticle'
 import ViewAuthor from '../pages/screen/ViewAuthor'
+import ViewRequest from '../pages/screen/ViewRequest'
+import ViewFriends from '../pages/screen/ViewFriends'
 
 export const mainRouter = createBrowserRouter([
     {
@@ -36,7 +38,17 @@ export const mainRouter = createBrowserRouter([
                 index: true,
                 path: "/view-authors",
                 element: <ViewAuthor />,
-            }
+            },
+            {
+                index: true,
+                path: "/view-request",
+                element: <ViewRequest />,
+            },
+            {
+                index: true,
+                path: "/view-friends",
+                element: <ViewFriends />,
+            },
         ]
     }
 ])

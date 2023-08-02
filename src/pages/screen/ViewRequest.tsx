@@ -1,39 +1,66 @@
 import { styled } from 'styled-components'
-import { useTanAuthor } from '../../hooks/useAuthor'
-import { makeRequest } from '../../api/friendAPI'
+import { useTanAuthorOne } from '../../hooks/useAuthor'
+import { beFriend, deleteRequest } from '../../api/friendAPI'
 import { useSelector } from 'react-redux'
 
 
-const ViewAuthor = () => {
-    const { authors, isLoading } = useTanAuthor()
+
+interface iProps {
+    props?: any
+}
+
+const RequestComp: React.FC<iProps> = ({ props }) => {
     const userID = useSelector((state: any) => state.appUser)
+    const { author } = useTanAuthorOne(props)
+
+
+
+    return <CardHolder>
+        <Avatar src={author?.avatar} />
+        <Content>
+            <Name>{author?.name}</Name>
+            <Email>{author?.email}</Email>
+            <Total>Number of Articles: {author?.articles?.length}</Total>
+        </Content>
+
+
+        <Holder>
+            <Button
+                onClick={() => {
+                    beFriend(userID, author._id).then(() => {
+                        deleteRequest(author._id, userID)
+                    })
+                }}
+            >Confirm</Button>
+            <Button
+                onClick={() => {
+                    deleteRequest(author._id, userID)
+                }}
+            >delete</Button>
+        </Holder>
+    </CardHolder>
+}
+
+
+const ViewRequest = () => {
+    const userID = useSelector((state: any) => state.appUser)
+
+    const { author, isLoading } = useTanAuthorOne(userID)
+
+    console.log(author)
+
     return (
         <div>
             {
                 isLoading ? <div>loading....</div> : <Container>
                     <Main>
                         {
-                            authors?.map((props: any) => (
+                            author?.request?.map((props: any) => (
                                 <div key={props._id} >
                                     {
                                         userID === props._id ? null : <Card key={props._id} >
                                             <div>
-                                                <CardHolder>
-                                                    <Avatar src={props.avatar} />
-                                                    <Content>
-                                                        <Name>{props.name}</Name>
-                                                        <Email>{props.email}</Email>
-                                                        <Total>Number of Articles: {props.articles.length}</Total>
-                                                    </Content>
-                                                </CardHolder>
-
-                                                <Holder>
-                                                    <Button
-                                                        onClick={() => {
-                                                            makeRequest(userID, props._id)
-                                                        }}
-                                                    >Add as Friend</Button>
-                                                </Holder>
+                                                <RequestComp props={props} />
 
                                             </div>
                                         </Card>
@@ -48,7 +75,7 @@ const ViewAuthor = () => {
     )
 }
 
-export default ViewAuthor
+export default ViewRequest
 
 const Holder = styled.div`
 display:flex;
@@ -127,3 +154,4 @@ width: 100%;
 min-height:40vh;
 
 `
+

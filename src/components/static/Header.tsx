@@ -15,11 +15,21 @@ const Header = () => {
                     <Nav to="/" >
                         <span>Home</span>
                     </Nav>
+
                     <Nav to="/view-authors" >
                         <span>View Authors</span>
                     </Nav>
+
+                    <Nav to="/view-friends" >
+                        <span>View Friends</span>
+                    </Nav>
+
                     <Nav to="/create-article" >
                         <span>Create Articles</span>
+                    </Nav>
+
+                    <Nav to="/view-request" >
+                        <span>View Request</span>
                     </Nav>
 
                     <Space />

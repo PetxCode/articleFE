@@ -1,39 +1,43 @@
 import { styled } from 'styled-components'
-import { useTanAuthor } from '../../hooks/useAuthor'
+import { useTanAuthorOne } from '../../hooks/useAuthor'
 import { makeRequest } from '../../api/friendAPI'
 import { useSelector } from 'react-redux'
 
+interface iProps {
+    props?: any
+}
 
-const ViewAuthor = () => {
-    const { authors, isLoading } = useTanAuthor()
+
+const ViewMyFriends: React.FC<iProps> = ({ props }) => {
+    const { author } = useTanAuthorOne(props)
+
+    return <CardHolder>
+        <Avatar src={author?.avatar} />
+        <Content>
+            <Name>{author?.name}</Name>
+            <Email>{author?.email}</Email>
+            <Total>Number of Articles: {author?.articles.length}</Total>
+        </Content>
+    </CardHolder>
+}
+
+
+const ViewFriends = () => {
+
     const userID = useSelector((state: any) => state.appUser)
+    const { author, isLoading } = useTanAuthorOne(userID)
     return (
         <div>
             {
                 isLoading ? <div>loading....</div> : <Container>
                     <Main>
                         {
-                            authors?.map((props: any) => (
+                            author.friends?.map((props: any) => (
                                 <div key={props._id} >
                                     {
                                         userID === props._id ? null : <Card key={props._id} >
                                             <div>
-                                                <CardHolder>
-                                                    <Avatar src={props.avatar} />
-                                                    <Content>
-                                                        <Name>{props.name}</Name>
-                                                        <Email>{props.email}</Email>
-                                                        <Total>Number of Articles: {props.articles.length}</Total>
-                                                    </Content>
-                                                </CardHolder>
-
-                                                <Holder>
-                                                    <Button
-                                                        onClick={() => {
-                                                            makeRequest(userID, props._id)
-                                                        }}
-                                                    >Add as Friend</Button>
-                                                </Holder>
+                                                <ViewMyFriends props={props} />
 
                                             </div>
                                         </Card>
@@ -48,29 +52,7 @@ const ViewAuthor = () => {
     )
 }
 
-export default ViewAuthor
-
-const Holder = styled.div`
-display:flex;
-align-items: center;
-justify-content: center;
-width: 100%;
-`
-
-const Button = styled.div`
-text-align: center;
-width: 90%;
-height: 40px;
-margin-top: 10px;
-background-color: var(--appMainColor);
-color: var(--appBG);
-display:flex;
-align-items: center;
-justify-content: center;
-margin-bottom:10px;
-border-radius: var();
-cursor: pointer;
-`
+export default ViewFriends
 
 const Total = styled.div`
 font-size: 12px;

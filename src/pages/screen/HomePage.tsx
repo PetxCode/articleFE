@@ -1,7 +1,15 @@
 import React from 'react'
 import { styled } from 'styled-components'
+import { useTanArticle } from '../../hooks/useAuthor'
+import { useSelector } from "react-redux"
 
 const HomePage = () => {
+    const userID = useSelector((state: any) => state.appUser)
+
+    const { article }: any = useTanArticle(userID)
+
+    console.log(userID);
+
     return (
         <div>
             <Container>

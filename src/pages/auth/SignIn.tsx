@@ -18,7 +18,7 @@ const SignIn = () => {
         password: yup.string().required(),
     })
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
 
@@ -169,39 +169,6 @@ height: 40px;
 border: 1px solid var(--appBorderL);
 border-radius: var(--appRadiusSmall);
 margin: 10px 0;
-
-
-`
-
-const ImageLabel = styled.label`
-padding: 8px 15px;
-border-radius: var(--appRadiusSmall);
-background-color: var(--appText);
-color: var(--appBG);
-font-size: 12px;
-margin-top: 4px;
-cursor: pointer;
-`
-
-const Image = styled.img`
-width: 70px;
-height: 70px;
-border-radius: 50%;
-border: 1px solid var(--appBorder);
-object-fit: cover;
-margin: 5px 0;
-`
-
-const ImageInput = styled.input`
-display:none
-`
-
-const ImageHolder = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-margin-bottom: 20px 
-
 `
 
 const Main = styled.form`
