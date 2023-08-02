@@ -47,12 +47,10 @@ const HomePage = () => {
         <Container>
 
             <Main>
-
-
+                <Screen1>
                 {
                     article?.map((props: any) => (
-
-                        <Screen1 key={props._id} >
+                        <div key={props._id}>
                             <AuthorIdentity props={props} />
 
                             <Holder>
@@ -86,12 +84,10 @@ const HomePage = () => {
                             <LineHolder>
                                 <Line />
                             </LineHolder>
-
-                        </Screen1>
-
+                        </div>
                     ))
                 }
-
+                </Screen1>
 
 
                 <Screen2>
