@@ -1,10 +1,13 @@
 import { NavLink } from 'react-router-dom'
 import { styled } from 'styled-components'
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { logOut } from '../../global/globalState'
+import { useTanAuthorOne } from '../../hooks/useAuthor'
 
 const Header = () => {
     const dispatch = useDispatch()
+    const userID = useSelector((state: any) => state.appUser)
+    const { author } = useTanAuthorOne(userID)
     return (
         <div>
             <Container>
@@ -34,6 +37,12 @@ const Header = () => {
 
                     <Space />
 
+                    <Holder>
+                        <Avatar src={author?.avatar} />
+                        <Name>{author?.name}</Name>
+                    </Holder>
+
+
                     <NavLog
                         onClick={() => {
                             dispatch(logOut())
@@ -51,6 +60,31 @@ const Header = () => {
 }
 
 export default Header
+
+const Name = styled.div`
+font-weight: 600;
+text-transform: capitalize;
+`
+
+const Avatar = styled.img`
+width: 40px;
+height: 40px;
+border: 1px solid var(--appBorder);
+object-fit: cover;
+border-radius: 50%;
+background-color: purple;
+margin-right: 5px
+`
+const Holder = styled.div`
+margin-left: 5px;
+margin-right: 5px;
+display: flex;
+padding-top:10px;
+padding-bottom:10px;
+border-top: 1px solid var(--appBorder);
+align-items: center;
+
+`
 
 const Space = styled.div`
 flex: 1;
