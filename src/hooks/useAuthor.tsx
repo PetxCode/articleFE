@@ -53,11 +53,12 @@ export const useTanAuthorRequest = (id: string) => {
 }
 
 export const useTanArticle = async (id: string) => {
-    const { data: article, isLoading } = useQuery({
-        queryKey: ["ArticleOfFriends", { id: id }],
+    const { data: article24, isLoading } = useQuery({
+        queryKey: ["ArticleOfFriends24", { id: id }],
         queryFn: () => readArticle(id),
         refetchInterval: 1000
     })
 
-    return { article, isLoading }
+    console.log(article24)
+    return { article24 }
 }

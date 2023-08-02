@@ -1,18 +1,46 @@
 import React from 'react'
 import { styled } from 'styled-components'
-import { useTanArticle } from '../../hooks/useAuthor'
+import { useTanArticle, useTanAuthorOne } from '../../hooks/useAuthor'
 import { useSelector } from "react-redux"
 import { CiSaveDown2 } from "react-icons/ci"
 import { BiDotsHorizontalRounded } from "react-icons/bi"
 import { AiOutlineMinusCircle } from "react-icons/ai"
+import { useQuery } from "@tanstack/react-query"
+import { readArticle } from '../../api/ArticleAPI'
+import moment from "moment"
+
+interface iProps {
+    props?: any
+}
+
+
+const AuthorIdentity: React.FC<iProps> = ({ props }) => {
+    const { author } = useTanAuthorOne(props!.authorID)
+    return <Top>
+        <Avatar src={author?.avatar} />
+        <Name>
+            <Title>{author?.name}</Title>
+            <Created>{moment(props.createdAt).fromNow()}</Created>
+        </Name>
+    </Top>
+}
+
 
 
 const HomePage = () => {
     const userID = useSelector((state: any) => state.appUser)
 
-    const { article }: any = useTanArticle(userID)
+    // const { article24 }: any = useTanArticle(userID)
 
-    console.log(userID);
+    const { data: article, isLoading } = useQuery({
+        queryKey: ["ArticleOfFriends24", { id: userID }],
+        queryFn: () => readArticle(userID),
+        refetchInterval: 1000
+    })
+
+
+    console.log(article)
+
 
     return (
 
@@ -21,48 +49,50 @@ const HomePage = () => {
             <Main>
 
 
-                <Screen1>
-                    <Top>
-                        <Avatar />
-                        <Name>
-                            <Title>name</Title>
-                            <Created>Oct 3, 2019</Created>
-                        </Name>
-                    </Top>
+                {
+                    article?.map((props: any) => (
 
-                    <Holder>
-                        <div>
-                            <ArticleTitle>How To Wake Up at 5 A.M. Every Day</ArticleTitle>
-                            <Description>An unconventional and compassionate guide to becoming an early bird — I thought I was destined to be a night owl forever. I’m no stranger to reading about the benefits of waking up early or having the same</Description>
-                        </div>
-                        <Image />
-                    </Holder>
+                        <Screen1 key={props._id} >
+                            <AuthorIdentity props={props} />
 
-                    <br />
-                    <br />
-                    <br />
+                            <Holder>
+                                <div style={{ flex: "1" }} >
+                                    <ArticleTitle>{props?.title}</ArticleTitle>
+                                    <Description>{props?.description}</Description>
+                                </div>
+                                <Image src={props?.image} />
+                            </Holder>
+
+                            <br />
+                            <br />
+                            <br />
 
 
-                    <Cat>
-                        <Div>
-                            <Category>category</Category>
-                            <Read>4mins read</Read>
-                        </Div>
-                        <Div1>
-                            < Icon1 />
-                            < Icon2 />
-                            < Icon3 />
-                        </Div1>
-                    </Cat>
+                            <Cat>
+                                <Div>
+                                    <Category>category</Category>
+                                    <Read>4mins read</Read>
+                                </Div>
+                                <Div1>
+                                    < Icon1 />
+                                    < Icon2 />
+                                    < Icon3 />
+                                </Div1>
+                            </Cat>
 
-                    <br />
-                    <br />
+                            <br />
+                            <br />
 
-                    <LineHolder>
-                        <Line />
-                    </LineHolder>
+                            <LineHolder>
+                                <Line />
+                            </LineHolder>
 
-                </Screen1>
+                        </Screen1>
+
+                    ))
+                }
+
+
 
                 <Screen2>
                     <br />
@@ -95,7 +125,7 @@ const HomePage = () => {
                     <br />
                     <br />
                     <br />
-                    <TextContext>Who to Follow</TextContext>
+                    <TextContext>Whom you're Following</TextContext>
 
                     <Pick1>
                         <Avatar1 />
@@ -269,11 +299,11 @@ align-items: center;
 width: 98%;
 `
 
-const Image = styled.div`
-width: 500px;
+const Image = styled.img`
+width: 150px;
 height: 150px;
 background-color: purple;
-
+object-fit: cover;
 `
 
 const Description = styled.div`
@@ -295,6 +325,7 @@ font-size: 13px;
 const Title = styled.div`
 margin-right: 10px;
 font-weight: 300;
+text-transform: capitalize;
 `
 
 const Name = styled.div`
@@ -322,6 +353,9 @@ const Screen1 = styled.div`
 width: 75%;
 border-right: 1px solid var(--appBorder);
 margin:0 10px;
+display: flex;
+flex-direction: column;
+height: 100%;
 `
 
 const Main = styled.div`
@@ -334,3 +368,4 @@ const Container = styled.div`
 display:flex;
 width: 100%;
 `
+

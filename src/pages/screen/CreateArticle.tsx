@@ -40,9 +40,9 @@ const CreateArticle = () => {
         const { title, description, content } = data
         const formData = new FormData()
 
-        formData.append("name", title)
-        formData.append("email", description)
-        formData.append("password", content)
+        formData.append("title", title)
+        formData.append("description", description)
+        formData.append("content", content)
         formData.append("image", avatar)
 
         createArticle(formData, userID).then(() => {
